@@ -1,3 +1,3 @@
-## Login firebase
+## Auth firebase
 
 Authentication with firebase service.
