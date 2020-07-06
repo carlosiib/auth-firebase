@@ -10,7 +10,7 @@ const Navbar = () => {
     <div className="navbar navbar-dark bg-dark">
       <Link className="navbar-brand" to="/">
         Auth
-      </Link>
+        </Link>
       <div>
         <div className="d-flex">
           <NavLink
