@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
+import { auth } from "../firebase"
 
 const Login = () => {
     const [email, setEmail] = useState("")
@@ -23,9 +24,32 @@ const Login = () => {
             return
         }
         //pasando todas las validaciones
+        console.log("Correcto...")
         setError(null)
-        console.log("Pasando validaciones")
+
+
+        if (esRegistro) {
+            registrar()
+        }
     }
+
+    //register user in firebase
+    const registrar = useCallback(async () => {
+        try {
+            const res = await auth.createUserWithEmailAndPassword(email, pass)
+            console.log(res.user)
+        } catch (error) {
+            console.log(error)
+            //error proveniente de firebase
+            if (error.code === "auth/invalid-email") {
+                setError("Email no valido")
+            }
+            if (error.code === "auth/email-already-in-use") {
+                setError("Email ya utilizado")
+            }
+        }
+    }, [email, pass])
+
     return (
         <div className="mt-5">
             <h3 className="text-center">{esRegistro ? "Registro de usuarios" : "Login"}</h3>
