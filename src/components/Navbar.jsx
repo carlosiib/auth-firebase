@@ -5,7 +5,7 @@ import {
   NavLink,
 } from "react-router-dom";
 
-export const Navbar = () => {
+const Navbar = () => {
   return (
     <div className="navbar navbar-dark bg-dark">
       <Link className="navbar-brand" to="/">
@@ -37,3 +37,4 @@ export const Navbar = () => {
     </div>
   );
 };
+export default Navbar
