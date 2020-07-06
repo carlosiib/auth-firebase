@@ -3,7 +3,7 @@ import React from "react";
 function App() {
   return (
     <div className="container">
-      <h1 className="text-center">Working</h1>
+      <h1 className="text-center">Auth Firebase</h1>
     </div>
   );
 }
