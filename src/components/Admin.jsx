@@ -16,10 +16,13 @@ const Admin = (props) => {
       //redireccionando usuario no registrado a login
       props.history.push("/login")
     }
-  }, [])
+  }, [props.history])
   return (
     <div>
-      <h3 className="text-center">Ruta protegida</h3>
+      <h2 className="text-center">Ruta protegida</h2>
+      {user && (
+        <h3>{user.email}</h3>
+      )}
     </div>
   )
 }
