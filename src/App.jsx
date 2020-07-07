@@ -7,6 +7,7 @@ import {
 
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
+import Admin from "./components/Admin";
 
 function App() {
   return (
@@ -20,7 +21,9 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
-          <Route path="/admin">Admin...</Route>
+          <Route path="/admin">
+            <Admin />
+          </Route>
         </Switch>
       </div>
     </Router>
