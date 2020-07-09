@@ -12,13 +12,26 @@ const Firestore = (props) => {
   const [tarea, setTarea] = useState("");
   const [modoEdicion, setModoEdicion] = useState(false);
   const [id, setId] = useState("");
+  //pagination
+  const [ultimo, setUltimo] = useState(null);
+  //disable pagination
+  const [desactivar, setDesactivar] = useState(false);
+
 
   useEffect(() => {
     const obtenerDatos = async () => {
+
       try {
+        //disable pagination button
+        setDesactivar(true)
+
         //Getting db collections
         //Ligando usuario unico con una coleccion unica
-        const data = await db.collection(props.user.uid).get();
+        //limit -> limite de colecciones a cargar por usuario
+        const data = await db.collection(props.user.uid)
+          .limit(2)
+          .orderBy("fecha")
+          .get();
 
         //Reading db collections
         const arrayData = data.docs.map((doc) => ({
@@ -27,7 +40,23 @@ const Firestore = (props) => {
           ...doc.data(),
         }));
 
+        //...length -1 -> read the last collection
+        setUltimo(data.docs[data.docs.length - 1])
+
         setTareas(arrayData);
+
+        //know if there are more collection to load
+        const query = await db.collection(props.user.uid)
+          .limit(2)
+          .orderBy("fecha")
+          .startAfter(data.docs[data.docs.length - 1])
+          .get();
+        if (query.empty) {
+          console.log("No hay mas documetos ")
+          setDesactivar(true)
+        } else {
+          setDesactivar(false)
+        }
       } catch (error) {
         console.log(error);
       }
@@ -125,6 +154,43 @@ const Firestore = (props) => {
       console.log(error);
     }
   };
+
+  //pagination for tasks
+  const siguiente = async () => {
+    console.log("siguiente")
+    try {
+      const data = await db.collection(props.user.uid)
+        .limit(2)
+        .orderBy("fecha")
+        .startAfter(ultimo)
+        .get()
+
+      const arrayData = data.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setTareas([
+        ...tareas,
+        //flating the array collection
+        ...arrayData
+      ])
+      setUltimo(data.docs[data.docs.length - 1])
+
+      const query = await db.collection(props.user.uid)
+        .limit(2)
+        .orderBy("fecha")
+        .startAfter(data.docs[data.docs.length - 1])
+        .get();
+      if (query.empty) {
+        console.log("No hay mas documetos ")
+        setDesactivar(true)
+      } else {
+        setDesactivar(false)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className="container mt-3">
 
@@ -155,6 +221,10 @@ const Firestore = (props) => {
               </li>
             ))}
           </ul>
+          <button
+            className="btn btn-info btn-block mt-2 btn-sm"
+            onClick={() => siguiente()}
+            disabled={desactivar}>Siguiente...</button>
         </div>
         <div className="col-md-6">
           <h3>
