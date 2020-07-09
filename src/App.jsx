@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Admin from "./components/Admin";
 import Reset from "./components/Reset";
+import Inicio from "./components/Inicio";
 
 import { auth } from "./firebase"
 
@@ -37,7 +38,7 @@ function App() {
       <div className="container">
         <Navbar firebaseUser={firebaseUser} />
         <Switch>
-          <Route path="/login">
+          <Route path="/login" exact>
             <Login />
           </Route>
           <Route path="/admin">
@@ -47,7 +48,7 @@ function App() {
             <Reset />
           </Route>
           <Route path="/" exact>
-            Inicio...
+            <Inicio />
           </Route>
         </Switch>
       </div>
