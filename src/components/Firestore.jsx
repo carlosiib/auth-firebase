@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-
 import { db } from "../firebase";
+
+import moment from "moment"
+import "moment/locale/es"
 
 const Firestore = (props) => {
 
@@ -15,7 +17,7 @@ const Firestore = (props) => {
     const obtenerDatos = async () => {
       try {
         //Getting db collections
-        //const db = firebase.firestore();
+        //Ligando usuario unico con una coleccion unica
         const data = await db.collection(props.user.uid).get();
 
         //Reading db collections
@@ -136,7 +138,7 @@ const Firestore = (props) => {
               "
                 key={item.id}
               >
-                {item.name}
+                {item.name} - {moment(item.fecha).format("LLL")}
 
                 <button
                   className="btn btn-danger btn-sm float-right"
