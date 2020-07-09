@@ -116,13 +116,13 @@ const Login = (props) => {
             <input
               type="email"
               className="form-control mb-2"
-              placeholder="Ingrese un email"
+              placeholder="Ingrese email"
               value={email}
               onChange={(e) => setEmail(e.target.value)} />
             <input
               type="password"
               className="form-control mb-2"
-              placeholder="Ingrese un password"
+              placeholder="Ingrese password"
               value={pass}
               onChange={(e) => setPass(e.target.value)} />
             <button
@@ -131,7 +131,18 @@ const Login = (props) => {
             <button
               type="button"
               className="btn btn-info btn-sm btn-block"
-              onClick={() => setEsRegistro(!esRegistro)}>{esRegistro ? "¿Ya estas registrado?" : "¿No tienes cuenta?"}</button>
+              onClick={() => setEsRegistro(!esRegistro)}>{esRegistro ? "¿Ya tienes cuenta?" : "¿No tienes cuenta?"}</button>
+            {
+              !esRegistro ? (
+                <button
+                  type="button"
+                  className="btn  btn-block btn-danger mt-2"
+                  onClick={() => props.history.push("/reset")}>
+                  Recuperar contraseña
+                </button>
+              ) : null
+            }
+
           </form>
         </div>
       </div>
